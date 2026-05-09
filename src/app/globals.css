@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'AyatNo';
+  src: url('/fonts/ayat-no.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #090909;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #22c55e44;
+}
+
+body {
+  background-color: #090909;
+  color: #ecfdf5;
+}
