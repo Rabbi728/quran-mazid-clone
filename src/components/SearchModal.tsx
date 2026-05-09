@@ -26,8 +26,11 @@ export default function SearchModal({ isOpen, onClose }: { isOpen: boolean; onCl
     const arabicFontClass = getArabicFontClass(arabicFont);
 
     useEffect(() => {
-        if (isOpen && inputRef.current) {
-            inputRef.current.focus();
+        if (isOpen) {
+            if (inputRef.current) inputRef.current.focus();
+        } else {
+            setQuery("");
+            setResults([]);
         }
 
         const handleEsc = (e: KeyboardEvent) => {
@@ -43,6 +46,8 @@ export default function SearchModal({ isOpen, onClose }: { isOpen: boolean; onCl
             setResults([]);
             return;
         }
+
+        setResults([]);
 
         const delayDebounceFn = setTimeout(async () => {
             setLoading(true);
