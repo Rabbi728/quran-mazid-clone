@@ -67,6 +67,31 @@ export function AyahView({ initialData }: AyahViewProps) {
     fetchAyahs();
   }, [surahIdFromUrl, setSelectedSurahId, surahData?.id]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const hash = window.location.hash.substring(1);
+      if (hash) {
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+        }, 100);
+      }
+    };
+
+    if (!loading && surahData) {
+      handleScroll();
+    }
+
+    window.addEventListener("hashchange", handleScroll);
+    window.addEventListener("popstate", handleScroll);
+    return () => {
+      window.removeEventListener("hashchange", handleScroll);
+      window.removeEventListener("popstate", handleScroll);
+    };
+  }, [surahData, loading]);
+
   const toArabicDigits = (n: number | string) =>
     String(n).replace(/[0-9]/g, (d) => "٠١٢٣٤٥٦٧٨٩"[Number(d)]);
 

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useSettingsStore } from '@/store/useSettingsStore';
 import { getArabicFontClass } from '@/app/fonts';
 import { Search, X, Loader2, BookOpen } from 'lucide-react';
+import { useParams } from 'next/navigation';
 
 interface SearchResult {
     chapter: number;
@@ -20,6 +21,8 @@ export default function SearchModal({ isOpen, onClose }: { isOpen: boolean; onCl
     const [loading, setLoading] = useState(false);
     const { arabicFont } = useSettingsStore();
     const inputRef = useRef<HTMLInputElement>(null);
+    const params = useParams();
+    const currentSurahId = params.id ? parseInt(params.id as string) : null;
     const arabicFontClass = getArabicFontClass(arabicFont);
 
     useEffect(() => {
@@ -61,6 +64,18 @@ export default function SearchModal({ isOpen, onClose }: { isOpen: boolean; onCl
 
     if (!isOpen) return null;
 
+    const handleResultClick = (result: SearchResult) => {
+        onClose();
+        if (currentSurahId === result.chapter) {
+            setTimeout(() => {
+                const element = document.getElementById(result.verse.toString());
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100);
+        }
+    };
+
     return (
         <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[10vh] px-4">
             <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity animate-in fade-in duration-300" onClick={onClose} />
@@ -99,7 +114,7 @@ export default function SearchModal({ isOpen, onClose }: { isOpen: boolean; onCl
                                 <Link 
                                     key={idx}
                                     href={`/${result.chapter}#${result.verse}`}
-                                    onClick={onClose}
+                                    onClick={() => handleResultClick(result)}
                                     className="flex flex-col p-5 hover:bg-emerald-500/[0.03] rounded-2xl transition-all border border-transparent hover:border-emerald-500/10 group"
                                 >
                                     <div className="flex justify-between items-start mb-4">
