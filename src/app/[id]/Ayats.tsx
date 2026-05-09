@@ -11,7 +11,7 @@ export default function Ayats({ surahData, id }: { surahData: any, id: string })
         arabicFontSize,
         translationFontSize,
         transliterationFontSize,
-        toggleSidebar
+        setSettingsOpen
     } = useSettingsStore();
 
     const arabicFontClass = getArabicFontClass(arabicFont);
@@ -47,7 +47,7 @@ export default function Ayats({ surahData, id }: { surahData: any, id: string })
                     <div className="flex items-center gap-4">
                         <div className="text-2xl font-amiri hidden sm:block">{surahData.name}</div>
                         <button
-                            onClick={toggleSidebar}
+                            onClick={() => setSettingsOpen(true)}
                             className="p-2.5 bg-emerald-600 hover:bg-emerald-500 rounded-xl transition-colors shadow-inner"
                             title="Page Settings"
                         >
